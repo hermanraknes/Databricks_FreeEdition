@@ -7,7 +7,7 @@ from pyspark.sql.functions import col, to_timestamp, current_timestamp, sha2, co
     comment="Hourly air quality metrics pivoted wide (one row per hour)"
 )
 def met_airquality_gold_hourly():
-    df = dp.read("main_uc.silver.met_airquality_silver")
+    df = dp.read("main_uc.silver.met_airquality_silver_scd1")
 
     # Ensure hour grain (your data already looks hourly, but this makes it robust)
     base = df.withColumn("hour_ts", date_trunc("hour", col("time_from_ts")))
@@ -28,7 +28,7 @@ def met_airquality_gold_hourly():
     comment="Daily average air quality per variable (valid records: 1-hour interval)"
 )
 def met_airquality_gold_daily_avg():
-    df = dp.read("main_uc.silver.met_airquality_silver")
+    df = dp.read("main_uc.silver.met_airquality_silver_scd1")
 
     # Valid if exactly 1 hour between from/to
     valid = df.filter(
