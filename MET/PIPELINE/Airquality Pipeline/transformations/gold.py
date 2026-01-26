@@ -1,23 +1,26 @@
 from pyspark import pipelines as dp
 import dlt
-from pyspark.sql.functions import col, to_timestamp, current_timestamp, sha2, concat_ws, max as fmax, expr, date_trunc, to_date, avg, count
+from pyspark.sql.functions import col, to_timestamp, current_timestamp, sha2, concat_ws, max as fmax, expr, date_trunc, to_date, avg, count, when
 
 @dp.table(
     name="main_uc.gold.met_airquality_gold_hourly",
-    comment="Hourly air quality metrics pivoted wide (one row per hour)"
+    comment="Hourly air quality metrics wide (one row per hour) - pivot-free for Lakeflow"
 )
 def met_airquality_gold_hourly():
     df = dp.read("main_uc.silver.met_airquality_silver_scd1")
 
-    # Ensure hour grain (your data already looks hourly, but this makes it robust)
     base = df.withColumn("hour_ts", date_trunc("hour", col("time_from_ts")))
 
-    # If duplicates ever slip through on same hour+variable, max() picks one deterministically
     wide = (
         base.groupBy("hour_ts")
-        .pivot("variable", ["AQI","pm25_concentration","pm10_concentration",
-                           "no2_concentration","o3_concentration","so2_concentration"])
-        .agg(fmax("value_double"))
+        .agg(
+            fmax(when(col("variable") == "AQI", col("value_double"))).alias("AQI"),
+            fmax(when(col("variable") == "pm25_concentration", col("value_double"))).alias("pm25_concentration"),
+            fmax(when(col("variable") == "pm10_concentration", col("value_double"))).alias("pm10_concentration"),
+            fmax(when(col("variable") == "no2_concentration", col("value_double"))).alias("no2_concentration"),
+            fmax(when(col("variable") == "o3_concentration", col("value_double"))).alias("o3_concentration"),
+            fmax(when(col("variable") == "so2_concentration", col("value_double"))).alias("so2_concentration"),
+        )
     )
 
     return wide
