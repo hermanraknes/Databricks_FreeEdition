@@ -25,6 +25,7 @@ def met_airquality_cleaned_vw():
                     col("time_from").cast("string"),
                     col("time_to").cast("string"),
                     col("variable").cast("string"),
+                    col("station_eoi").cast("string"),
                 ),
                 256,
             ),
@@ -52,7 +53,7 @@ dp.create_streaming_table(
 dp.apply_changes(
     target="main_uc.silver.met_airquality_silver_scd1",
     source="met_airquality_cleaned_vw",
-    keys=["time_from", "time_to", "variable"],
+    keys=["station_eoi", "time_from", "time_to", "variable"],
     sequence_by=col("_ingest_ts"),
     stored_as_scd_type=1
 )
@@ -63,7 +64,7 @@ dp.apply_changes(
 dp.apply_changes(
     target="main_uc.silver.met_airquality_silver_scd2",
     source="met_airquality_cleaned_vw",
-    keys=["time_from", "time_to", "variable"],
+    keys=["station_eoi", "time_from", "time_to", "variable"],
     sequence_by=col("_ingest_ts"),
     stored_as_scd_type=2
 )
