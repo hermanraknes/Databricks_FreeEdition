@@ -1,6 +1,6 @@
 from pyspark import pipelines as dp
 from pyspark.sql.functions import col
-from PIPELINE.silver.functions import transform_cleaned
+from MET.PIPELINE.silver_pipeline.functions import transform_cleaned
 
 # -------------------------
 # 1) Cleaned staging view
@@ -12,6 +12,18 @@ def met_airquality_cleaned_vw():
     df = dp.read_stream("main_uc.bronze.met_airquality_bronze")
     return transform_cleaned(df)
 
+# -------------------------
+# 2) Declare the targets (required for apply_changes)
+# -------------------------
+dp.create_streaming_table(
+    name="main_uc.silver.met_airquality_silver_scd1",
+    comment="Typed, cleaned, and deduplicated MET air quality data (SCD1)"
+)
+
+dp.create_streaming_table(
+    name="main_uc.silver.met_airquality_silver_scd2",
+    comment="Typed, cleaned, and historized MET air quality data (SCD2)"
+)
 
 # -------------------------
 # 3) Upsert/deduplicate scd1

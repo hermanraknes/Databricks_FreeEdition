@@ -1,5 +1,5 @@
 from pyspark import pipelines as dp
-from PIPELINE.bronze.functions import add_ingest_ts
+from MET.PIPELINE.bronze_pipeline.functions import add_ingest_ts
 
 SOURCE_ROOT = "/Volumes/main_uc/bronze/met_bergen_airquality_jsondumps"
 

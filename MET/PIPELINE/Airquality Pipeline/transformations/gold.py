@@ -1,5 +1,5 @@
 from pyspark import pipelines as dp
-from PIPELINE.gold_pipeline.functions import (
+from MET.PIPELINE.gold_pipeline.functions import (
     build_gold_hourly,
     build_gold_daily_avg,
     build_gold_kpis,
