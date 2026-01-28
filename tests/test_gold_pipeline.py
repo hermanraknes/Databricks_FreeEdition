@@ -26,6 +26,17 @@ def test_build_gold_hourly_pivots_to_wide_row(spark):
 
 
 def test_build_gold_kpis_missing_metrics_and_is_complete(spark):
+    schema = StructType([
+        StructField("hour_ts", StringType(), True),
+        StructField("_ingest_ts", StringType(), True),
+        StructField("AQI", DoubleType(), True),
+        StructField("pm25_concentration", DoubleType(), True),
+        StructField("pm10_concentration", DoubleType(), True),
+        StructField("no2_concentration", DoubleType(), True),
+        StructField("o3_concentration", DoubleType(), True),
+        StructField("so2_concentration", DoubleType(), True),
+    ])
+
     df = spark.createDataFrame([
         Row(
             hour_ts="2026-01-28 10:00:00",
@@ -37,7 +48,12 @@ def test_build_gold_kpis_missing_metrics_and_is_complete(spark):
             o3_concentration=None,     # missing
             so2_concentration=0.2
         )
-    ])
+    ], schema = schema)
+
+    df = (
+        df.withColumn("hour_ts", to_timestamp(col("hour_ts")))
+          .withColumn("_ingest_ts", to_timestamp(col("_ingest_ts")))
+    )
 
     out = build_gold_kpis(df).collect()[0]
     missing = out["missing_metrics"]
