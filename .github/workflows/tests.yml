@@ -33,7 +33,6 @@ jobs:
           PYSPARK_PYTHON: python
           PYTHONPATH: ${{ github.workspace }}
         run: |
-          python -c "import sys; print('sys.path[0:5]=', sys.path[0:5])"
-          python -c "import MET; print('MET OK:', MET.__file__)"
+          python -c "import MET;
           pytest -q
 
