@@ -33,6 +33,5 @@ jobs:
           PYSPARK_PYTHON: python
           PYTHONPATH: ${{ github.workspace }}
         run: |
-          python -c "import MET;
           pytest -q
 
