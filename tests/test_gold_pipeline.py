@@ -1,5 +1,5 @@
 from pyspark.sql import Row
-from PIPELINE.gold_pipeline.functions import build_gold_hourly, build_gold_kpis
+from MET.PIPELINE.gold_pipeline.functions import build_gold_hourly, build_gold_kpis
 
 
 def test_build_gold_hourly_pivots_to_wide_row(spark):
