@@ -1,5 +1,6 @@
 from pyspark import pipelines as dp
-from pyspark.sql.functions import col, to_timestamp, current_timestamp, sha2, concat_ws
+from pyspark.sql.functions import col
+from PIPELINE.silver.functions import transform_cleaned
 
 # -------------------------
 # 1) Cleaned staging view
@@ -9,42 +10,8 @@ from pyspark.sql.functions import col, to_timestamp, current_timestamp, sha2, co
 @dp.expect_or_drop("variable_present", "variable IS NOT NULL")
 def met_airquality_cleaned_vw():
     df = dp.read_stream("main_uc.bronze.met_airquality_bronze")
+    return transform_cleaned(df)
 
-    cleaned = (
-        df
-        .withColumn("time_from_ts", to_timestamp(col("time_from")))
-        .withColumn("time_to_ts", to_timestamp(col("time_to")))
-        .withColumn("value_double", col("value").cast("double"))
-        .drop("value")
-        .withColumn(
-            "record_hash",
-            sha2(
-                concat_ws(
-                    "||",
-                    col("time_from").cast("string"),
-                    col("time_to").cast("string"),
-                    col("variable").cast("string"),
-                    col("station_eoi").cast("string"),
-                ),
-                256,
-            ),
-        )
-    )
-    return cleaned
-
-
-# -------------------------
-# 2) Declare the target
-# -------------------------
-#dp.create_streaming_table(
-#    name="main_uc.silver.met_airquality_silver_scd1",
-#    comment="Typed, cleaned, and deduplicated MET air quality data scd1"
-#)
-
-#dp.create_streaming_table(
-#    name="main_uc.silver.met_airquality_silver_scd2",
-#    comment="Typed, cleaned, and deduplicated MET air quality data scd2"
-#)
 
 # -------------------------
 # 3) Upsert/deduplicate scd1
@@ -54,7 +21,7 @@ dp.apply_changes(
     source="met_airquality_cleaned_vw",
     keys=["station_eoi", "time_from", "time_to", "variable"],
     sequence_by=col("_ingest_ts"),
-    stored_as_scd_type=1
+    stored_as_scd_type=1,
 )
 
 # -------------------------
@@ -65,5 +32,5 @@ dp.apply_changes(
     source="met_airquality_cleaned_vw",
     keys=["station_eoi", "time_from", "time_to", "variable"],
     sequence_by=col("_ingest_ts"),
-    stored_as_scd_type=2
+    stored_as_scd_type=2,
 )
