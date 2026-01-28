@@ -1,5 +1,5 @@
 from pyspark.sql import Row
-from MET.PIPELINE.silver.functions import transform_cleaned
+from MET.PIPELINE.silver_pipeline.functions import transform_cleaned
 
 
 def test_transform_cleaned_casts_and_hash(spark):
