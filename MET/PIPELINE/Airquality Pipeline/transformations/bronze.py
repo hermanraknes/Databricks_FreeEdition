@@ -1,5 +1,4 @@
 from pyspark import pipelines as dp
-import dlt
 from pyspark.sql.functions import col, to_timestamp, current_timestamp, sha2, concat_ws
 
 SOURCE_ROOT = "/Volumes/main_uc/bronze/met_bergen_airquality_jsondumps"

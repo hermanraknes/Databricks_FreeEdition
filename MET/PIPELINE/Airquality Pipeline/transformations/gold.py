@@ -1,5 +1,4 @@
 from pyspark import pipelines as dp
-import dlt
 from pyspark.sql.window import Window
 from pyspark.sql.functions import col, to_timestamp, current_timestamp, sha2, concat_ws, max as fmax, expr, date_trunc, to_date, avg, count, when, lag, abs as fabs, lit, row_number
 
