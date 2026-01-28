@@ -1,8 +1,6 @@
 from pyspark.sql import Row
-from pyspark.sql.types import (
-    StructType, StructField,
-    TimestampType, DoubleType, StringType
-)
+from pyspark.sql.types import StructType, StructField, StringType, DoubleType
+from pyspark.sql.functions import to_timestamp, col
 from MET.PIPELINE.gold_pipeline.functions import build_gold_hourly, build_gold_kpis
 
 
