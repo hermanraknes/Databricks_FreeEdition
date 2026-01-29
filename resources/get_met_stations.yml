@@ -1,7 +1,7 @@
 resources:
   jobs:
     Get_MET_Stations:
-      name: "Get MET Stations"
+      name: "Get MET Stations (${bundle.target})"
       tasks:
         - task_key: Get_Met_Stations
           notebook_task:
