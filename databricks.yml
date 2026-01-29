@@ -1,0 +1,9 @@
+bundle:
+  name: met_bundle
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    default: true
