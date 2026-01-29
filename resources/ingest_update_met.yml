@@ -13,10 +13,8 @@ resources:
           depends_on:
             - task_key: Ingest_Met_Data
           pipeline_task:
-            pipeline_id: 68b48b69-5e18-423a-8d2e-bd20ba1269e0
+            pipeline_id: ${var.airquality_pipeline_id}
             full_refresh: false
-          pipeline_parameters:
-            catalog: ${var.catalog}
         - task_key: Refresh_Dashboard
           depends_on:
             - task_key: Run_Airquality_Pipeline
