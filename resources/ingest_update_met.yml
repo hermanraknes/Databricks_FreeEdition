@@ -1,7 +1,7 @@
 resources:
   jobs:
     Ingest_Update_MET:
-      name: Ingest&Update MET
+      name: "Ingest&Update MET (${bundle.target})"
       tasks:
         - task_key: Ingest_Met_Data
           notebook_task:
