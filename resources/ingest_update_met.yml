@@ -7,6 +7,8 @@ resources:
           notebook_task:
             notebook_path: /Repos/herman.lillejord@outlook.com/Databricks_FreeEdition/MET/DATA INGEST/Ingest Met Data
             source: WORKSPACE
+            base_parameters:
+              catalog: ${var.catalog}
         - task_key: Run_Airquality_Pipeline
           depends_on:
             - task_key: Ingest_Met_Data
