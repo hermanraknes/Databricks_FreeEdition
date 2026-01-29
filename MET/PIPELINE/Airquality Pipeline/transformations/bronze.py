@@ -1,13 +1,16 @@
 from pyspark import pipelines as dp
 from MET.PIPELINE.bronze_pipeline.functions import add_ingest_ts
 
-SOURCE_ROOT = "/Volumes/main_uc/bronze/met_bergen_airquality_jsondumps"
+catalog = spark.conf.get("catalog", "main_uc_dev")  # fallback
+
+SOURCE_ROOT = f"/Volumes/{catalog}/bronze/met_bergen_airquality_jsondumps"
+BRONZE_TABLE = f"{catalog}.bronze.met_airquality_bronze"
 
 # =========================
 # BRONZE
 # =========================
 @dp.table(
-    name="main_uc.bronze.met_airquality_bronze",
+    name=BRONZE_TABLE,
     comment="Raw MET air quality JSONL ingested from UC Volume using Auto Loader"
 )
 def met_airquality_bronze():
