@@ -18,7 +18,7 @@ targets:
     default: true
     variables:
       catalog: main_uc_dev
-      airquality_pipeline_id: "96c8986e-2cf1-46a2-a964-3a104935b6a6"
+      airquality_pipeline_id: "e6a3357e-deee-47d0-9dc5-479eaafe1772"
 
   prod:
     variables:
