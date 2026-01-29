@@ -4,6 +4,11 @@ bundle:
 include:
   - resources/*.yml
 
+variables:
+  catalog:
+    description: "Unity Catalog to use (dev/prod)"
+    default: main_uc_dev
+
 targets:
   dev:
     default: true
