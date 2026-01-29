@@ -3,6 +3,8 @@ resources:
     pipeline_airquality_pipeline:
       name: "Airquality Pipeline (${bundle.target})"
       catalog: ${var.catalog}
+      configuration:
+        catalog: ${var.catalog}
       schema: bronze
       photon: true
       serverless: true
