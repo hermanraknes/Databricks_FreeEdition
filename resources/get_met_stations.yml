@@ -1,0 +1,14 @@
+resources:
+  jobs:
+    Get_MET_Stations:
+      name: "Get MET Stations"
+      tasks:
+        - task_key: Get_Met_Stations
+          notebook_task:
+            notebook_path: "/Repos/herman.lillejord@outlook.com/Databricks_FreeEdition/MET/DATA/INGEST/Get Met Stations"
+            source: WORKSPACE
+            base_parameters:
+              catalog: ${var.catalog}
+
+      run_as:
+        service_principal_name: "0c37e901-94fc-4990-968e-a10e84349f16"
