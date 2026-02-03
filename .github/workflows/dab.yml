@@ -4,6 +4,12 @@ on:
   pull_request:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      run_job:
+        description: "Run Ingest_Update_MET after deploy?"
+        type: boolean
+        default: false
 
 jobs:
   dab:
@@ -21,8 +27,15 @@ jobs:
         run: databricks bundle validate -t dev
 
       - name: Deploy bundle
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: databricks bundle deploy -t dev
+
+      - name: Run job (dev)
+        if: github.event_name == 'workflow_dispatch' && inputs.run_job == true
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: databricks bundle run Ingest_Update_MET -t dev

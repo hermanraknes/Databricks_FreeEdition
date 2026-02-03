@@ -1,0 +1,35 @@
+name: Deploy & Run Get MET Stations (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Which environment to run?"
+        type: choice
+        options: [dev, prod]
+        default: dev
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+
+      - name: Validate bundle
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: databricks bundle validate -t ${{ inputs.target }}
+
+      - name: Deploy bundle
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: databricks bundle deploy -t ${{ inputs.target }}
+
+      - name: Run Get MET Stations
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: databricks bundle run Get_MET_Stations -t ${{ inputs.target }}

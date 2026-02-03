@@ -1,0 +1,17 @@
+resources:
+  pipelines:
+    pipeline_airquality_pipeline:
+      name: "Airquality Pipeline (${bundle.target})"
+      catalog: ${var.catalog}
+      configuration:
+        catalog: ${var.catalog}
+      schema: bronze
+      photon: true
+      serverless: true
+      root_path: "/Repos/herman.lillejord@outlook.com/Databricks_FreeEdition/MET/PIPELINE/Airquality Pipeline"
+      libraries:
+        - glob:
+            include: "/Repos/herman.lillejord@outlook.com/Databricks_FreeEdition/MET/PIPELINE/Airquality Pipeline/transformations/**"
+
+      run_as:
+        service_principal_name: "0c37e901-94fc-4990-968e-a10e84349f16"
