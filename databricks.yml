@@ -1,5 +1,6 @@
 bundle:
   name: met_bundle
+  version: 1
 
 include:
   - resources/**/*.yml
@@ -8,10 +9,6 @@ include:
 variables:
   catalog:
     description: "Unity Catalog to use for this target"
-    default: ""
-
-  warehouse_id:
-    description: "SQL warehouse for this target"
     default: ""
 
   pipeline_id:
