@@ -6,7 +6,7 @@ resources:
       tasks:
         - task_key: ingest_update
           notebook_task:
-            notebook_path: "${workspace.root}/MET/DATA INGEST/Ingest Update MET"
+            notebook_path: "${var.repo_root}/MET/DATA INGEST/Ingest Update MET"
             base_parameters:
               catalog: ${var.catalog}
               pipeline_id: ${var.pipeline_id}
