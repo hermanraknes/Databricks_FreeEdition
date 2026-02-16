@@ -6,6 +6,8 @@ resources:
       catalog: ${var.catalog}
       target: "${var.catalog}.air_quality"
 
+      edition: "SERVERLESS"
+
       libraries:
         - notebook:
             path: "${var.repo_root}/MET/DATA INGEST/AirQualityPipeline"
