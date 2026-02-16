@@ -3,4 +3,3 @@ targets:
     variables:
       catalog: main_uc_prod
       pipeline_id: ${env.PIPELINE_PROD_ID}
-      service_principal: ${env.SPN_PROD}
