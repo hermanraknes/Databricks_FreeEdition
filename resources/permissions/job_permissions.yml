@@ -1,7 +1,0 @@
-resources:
-  permissions:
-    job_permissions:
-      job: get_met_stations
-      permissions:
-        - level: CAN_VIEW
-          group_name: "data_engineers"
