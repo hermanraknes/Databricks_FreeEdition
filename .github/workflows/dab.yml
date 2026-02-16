@@ -19,12 +19,10 @@ jobs:
       # Databricks auth
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-
-      # Dynamic env values
       SPN_DEV: ${{ secrets.SPN_DEV }}
       SPN_PROD: ${{ secrets.SPN_PROD }}
-      PIPELINE_DEV_ID: ${{ secrets.PIPELINE_DEV_ID }}
-      PIPELINE_PROD_ID: ${{ secrets.PIPELINE_PROD_ID }}
+      #PIPELINE_DEV_ID: ${{ secrets.PIPELINE_DEV_ID }}
+      #PIPELINE_PROD_ID: ${{ secrets.PIPELINE_PROD_ID }}
 
     steps:
       - uses: actions/checkout@v4
