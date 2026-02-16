@@ -10,7 +10,7 @@ resources:
       tasks:
         - task_key: run_get_met_stations
           notebook_task:
-            notebook_path: "${workspace.root}/MET/DATA INGEST/Get Met Stations"
+            notebook_path: "${var.repo_root}/MET/DATA INGEST/Get Met Stations"
             base_parameters:
               catalog: ${var.catalog}
 
