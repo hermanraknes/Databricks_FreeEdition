@@ -22,11 +22,11 @@ jobs:
         run: databricks bundle validate -t prod
 
  
-      - name: Deploy bundle (prod)
+      - name: Deploy bootstrap (prod)
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: databricks bundle deploy -t prod
+        run: databricks bundle deploy -t prod --resources jobs/bootstrap_uc
 
       - name: Bootstrap UC (prod)
         env:
