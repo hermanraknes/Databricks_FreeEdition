@@ -39,4 +39,4 @@ jobs:
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: databricks bundle run Get_MET_Stations -t ${{ inputs.target }}
+        run: databricks bundle run get_met_stations -t ${{ inputs.target }}
