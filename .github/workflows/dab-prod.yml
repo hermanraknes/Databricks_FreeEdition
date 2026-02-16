@@ -21,11 +21,13 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: databricks bundle validate -t prod
 
-      - name: Bootstrap Unity Catalog (prod)
+      - name: Bootstrap UC
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: databricks bundle run bootstrap_uc -t prod
+        run: |
+          databricks workspace run "${var.repo_root}/ADMIN/bootstrap_uc" \
+            --parameters catalog_name=${{ var.catalog }}
  
       - name: Deploy bundle (prod)
         env:
