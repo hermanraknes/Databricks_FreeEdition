@@ -1,4 +1,4 @@
-version: "1"
+version: 1
 
 bundle:
   name: met_bundle
@@ -10,6 +10,10 @@ include:
 variables:
   catalog:
     description: "Unity Catalog to use for this target"
+    default: ""
+
+  warehouse_id:
+    description: "SQL warehouse for this target"
     default: ""
 
   pipeline_id:
