@@ -9,7 +9,7 @@ resources:
       serverless: true
 
       catalog: ${var.catalog}
-      target: "${var.catalog}.air_quality"
+      target: "${var.catalog}.bronze"
 
       libraries:
         - notebook:

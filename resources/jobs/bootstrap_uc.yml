@@ -9,6 +9,5 @@ resources:
             source: WORKSPACE
             base_parameters:
               catalog_name: ${var.catalog}
-              schema_name: ${var.schema}    # we'll add var.schema below
       run_as:
         user_name: "herman.lillejord@gmail.com"
