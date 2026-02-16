@@ -1,4 +1,4 @@
-name: DAB deploy + run (prod)
+name: DAB Deploy + Run (Prod)
 
 on:
   push:
@@ -6,8 +6,13 @@ on:
       - "v*"
 
 jobs:
-  dab-prod:
+  deploy-prod:
     runs-on: ubuntu-latest
+
+    env:
+      # Databricks auth
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -15,38 +20,20 @@ jobs:
       - name: Install Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: Validate bundle (prod)
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      - name: Validate bootstrap target
+        run: databricks bundle validate -t bootstrap
+
+      - name: Deploy bootstrap target
+        run: databricks bundle deploy -t bootstrap
+
+      - name: Run bootstrap job (creates prod catalog/schema)
+        run: databricks bundle run bootstrap_uc -t bootstrap
+
+      - name: Validate prod target
         run: databricks bundle validate -t prod
 
-      - name: Validate bootstrap target
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: databricks bundle validate -t bootstrap_uc
-
-      - name: Deploy bootstrap (prod)
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: databricks bundle deploy -t bootstrap_uc
-
-      - name: Run bootstrap UC (prod)
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: databricks bundle run bootstrap_uc -t bootstrap_uc
-
-      - name: Deploy main bundle (prod)
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      - name: Deploy prod target
         run: databricks bundle deploy -t prod
 
-      - name: Run main job (prod)
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      - name: Run main prod job
         run: databricks bundle run ingest_update_met -t prod

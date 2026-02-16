@@ -1,4 +1,4 @@
-name: DAB validate + deploy
+name: DAB Validate + Deploy (Dev)
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       run_job:
-        description: "Run Ingest_Update_MET after deploy?"
+        description: "Run ingest_update_met after deploy?"
         type: boolean
         default: false
 
@@ -19,8 +19,6 @@ jobs:
       # Databricks auth
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-      SPN_DEV: ${{ secrets.SPN_DEV }}
-      SPN_PROD: ${{ secrets.SPN_PROD }}
 
     steps:
       - uses: actions/checkout@v4
@@ -28,16 +26,22 @@ jobs:
       - name: Install Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: Validate bundle (dev)
+      - name: Validate bootstrap target
+        run: databricks bundle validate -t bootstrap
+
+      - name: Deploy bootstrap target
+        run: databricks bundle deploy -t bootstrap
+
+      - name: Run bootstrap job (creates dev catalog/schema)
+        run: databricks bundle run bootstrap_uc -t bootstrap
+
+      - name: Validate dev target
         run: databricks bundle validate -t dev
 
-      - name: Bootstrap Unity Catalog (dev)
-        run: databricks bundle run bootstrap_uc -t dev
-
-      - name: Deploy bundle (dev)
+      - name: Deploy dev target
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: databricks bundle deploy -t dev
 
-      - name: Run job (dev)
+      - name: Run main dev job
         if: github.event_name == 'workflow_dispatch' && inputs.run_job == true
         run: databricks bundle run ingest_update_met -t dev
