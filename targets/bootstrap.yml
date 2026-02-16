@@ -1,5 +1,6 @@
 targets:
   bootstrap:
+    include:
+      - resources/bootstrap/*yml
     variables:
-      catalog: main_uc_dev
       repo_root: "/Workspace/Databricks_FreeEdition"

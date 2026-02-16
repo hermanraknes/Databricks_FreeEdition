@@ -21,18 +21,8 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: databricks bundle validate -t prod
 
-        
-      - name: Extract catalog + repo_root from bundle
-        id: extract
-        run: |
-          VARS=$(databricks bundle inspect -t prod --output json)
-          echo "CATALOG=$(echo $VARS | jq -r '.variables.catalog')" >> $GITHUB_ENV
-          echo "REPO_ROOT=$(echo $VARS | jq -r '.variables.repo_root')" >> $GITHUB_ENV
-
       - name: Bootstrap UC
-        run: |
-          databricks workspace run "${{ env.REPO_ROOT }}/ADMIN/bootstrap_uc" \
-            --parameters catalog_name=${{ env.CATALOG }}
+        run: databricks bundle run bootstrap_uc -t prod
 
  
       - name: Deploy bundle (prod)
