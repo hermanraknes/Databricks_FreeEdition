@@ -21,6 +21,12 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: databricks bundle validate -t prod
 
+      - name: Bootstrap Unity Catalog (prod)
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: databricks bundle run bootstrap_uc -t prod
+ 
       - name: Deploy bundle (prod)
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
@@ -31,4 +37,4 @@ jobs:
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: databricks bundle run Ingest_Update_MET -t prod
+        run: databricks bundle run ingest_update_met -t prod
