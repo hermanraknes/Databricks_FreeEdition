@@ -1,0 +1,15 @@
+resources:
+  jobs:
+    ingest_update_met:
+      name: "Ingest MET Data (${bundle.target})"
+
+      tasks:
+        - task_key: ingest_update
+          notebook_task:
+            notebook_path: "${workspace.root}/MET/DATA INGEST/Ingest Update MET"
+            base_parameters:
+              catalog: ${var.catalog}
+              pipeline_id: ${var.pipeline_id}
+
+      run_as:
+        service_principal_name: ${var.service_principal}

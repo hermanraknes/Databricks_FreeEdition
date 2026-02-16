@@ -1,4 +1,4 @@
-name: DAB validate + deploy (dev)
+name: DAB validate + deploy
 
 on:
   pull_request:
@@ -12,30 +12,35 @@ on:
         default: false
 
 jobs:
-  dab:
+  deploy:
     runs-on: ubuntu-latest
+
+    env:
+      # Databricks auth
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+      # Dynamic env values
+      SPN_DEV: ${{ secrets.SPN_DEV }}
+      SPN_PROD: ${{ secrets.SPN_PROD }}
+      PIPELINE_DEV_ID: ${{ secrets.PIPELINE_DEV_ID }}
+      PIPELINE_PROD_ID: ${{ secrets.PIPELINE_PROD_ID }}
+      SQLW_DEV: ${{ secrets.SQLW_DEV }}
+      SQLW_PROD: ${{ secrets.SQLW_PROD }}
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Install Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: Validate bundle
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      - name: Validate bundle (dev)
         run: databricks bundle validate -t dev
 
-      - name: Deploy bundle
+      - name: Deploy bundle (dev)
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: databricks bundle deploy -t dev
 
       - name: Run job (dev)
         if: github.event_name == 'workflow_dispatch' && inputs.run_job == true
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: databricks bundle run Ingest_Update_MET -t dev
+        run: databricks bundle run ingest_update_met -t dev

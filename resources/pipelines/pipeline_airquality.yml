@@ -1,0 +1,7 @@
+resources:
+  pipelines:
+    airquality_pipeline:
+      name: "Air Quality Pipeline (${bundle.target})"
+      id: ${var.pipeline_id}
+      catalog: ${var.catalog}
+      target: "${var.catalog}.air_quality"

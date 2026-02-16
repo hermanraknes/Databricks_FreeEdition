@@ -1,0 +1,14 @@
+resources:
+  jobs:
+    get_met_stations:
+      name: "Get MET Stations (${bundle.target})"
+
+      tasks:
+        - task_key: run_get_met_stations
+          notebook_task:
+            notebook_path: "${workspace.root}/MET/DATA INGEST/Get Met Stations"
+            base_parameters:
+              catalog: ${var.catalog}
+
+      run_as:
+        service_principal_name: ${var.service_principal}

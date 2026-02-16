@@ -1,0 +1,8 @@
+targets:
+  dev:
+    default: true
+    variables:
+      catalog: main_uc_dev
+      pipeline_id: ${env.PIPELINE_DEV_ID}
+      service_principal: ${env.SPN_DEV}
+      warehouse_id: ${env.SQLW_DEV}

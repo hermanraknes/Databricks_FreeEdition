@@ -1,26 +1,22 @@
+version: "1"
+
 bundle:
   name: met_bundle
 
 include:
-  - resources/*.yml
+  - resources/**/*.yml
+  - targets/*.yml
 
 variables:
   catalog:
-    description: "Unity Catalog to use (dev/prod)"
-    default: main_uc_dev
+    description: "Unity Catalog to use for this target"
+    default: ""
 
-  airquality_pipeline_id:
-    description: "Pipeline ID to run for this target"
-    default: "96c8986e-2cf1-46a2-a964-3a104935b6a6"
+  pipeline_id:
+    description: "Pipeline ID (dynamic per target)"
+    default: ""
 
-targets:
-  dev:
-    default: true
-    variables:
-      catalog: main_uc_dev
-      airquality_pipeline_id: "e6a3357e-deee-47d0-9dc5-479eaafe1772"
+  service_principal:
+    description: "SPN used for job execution"
+    default: ""
 
-  prod:
-    variables:
-      catalog: main_uc_prod
-      airquality_pipeline_id: "d7af979b-a81e-434e-b42e-81aaceb08614"

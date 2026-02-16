@@ -1,0 +1,4 @@
+resources:
+  sql_warehouses:
+    default_warehouse:
+      id: ${var.warehouse_id}
