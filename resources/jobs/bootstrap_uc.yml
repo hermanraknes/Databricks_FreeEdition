@@ -1,0 +1,14 @@
+resources:
+  jobs:
+    bootstrap_uc:
+      name: "Bootstrap Unity Catalog (${bundle.target})"
+      tasks:
+        - task_key: create_uc
+          notebook_task:
+            notebook_path: "${var.repo_root}/ADMIN/bootstrap_uc.sql"
+            source: WORKSPACE
+            base_parameters:
+              catalog_name: ${var.catalog}
+              schema_name: ${var.schema}    # we'll add var.schema below
+      run_as:
+        user_name: "herman.lillejord@gmail.com"
