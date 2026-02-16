@@ -25,8 +25,6 @@ jobs:
       SPN_PROD: ${{ secrets.SPN_PROD }}
       PIPELINE_DEV_ID: ${{ secrets.PIPELINE_DEV_ID }}
       PIPELINE_PROD_ID: ${{ secrets.PIPELINE_PROD_ID }}
-      SQLW_DEV: ${{ secrets.SQLW_DEV }}
-      SQLW_PROD: ${{ secrets.SQLW_PROD }}
 
     steps:
       - uses: actions/checkout@v4
