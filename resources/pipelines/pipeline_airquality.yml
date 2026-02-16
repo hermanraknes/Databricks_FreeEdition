@@ -5,3 +5,7 @@ resources:
       id: ${var.pipeline_id}
       catalog: ${var.catalog}
       target: "${var.catalog}.air_quality"
+
+      libraries:
+        - notebook:
+            path: "${var.repo_root}/MET/DATA INGEST/AirQualityPipeline"
