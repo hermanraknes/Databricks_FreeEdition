@@ -25,7 +25,7 @@ jobs:
       - name: Extract catalog + repo_root from bundle
         id: extract
         run: |
-          VARS=$(databricks bundle inspect -t ${{ inputs.target }} --output json)
+          VARS=$(databricks bundle inspect -t prod --output json)
           echo "CATALOG=$(echo $VARS | jq -r '.variables.catalog')" >> $GITHUB_ENV
           echo "REPO_ROOT=$(echo $VARS | jq -r '.variables.repo_root')" >> $GITHUB_ENV
 
