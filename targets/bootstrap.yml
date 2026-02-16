@@ -1,3 +1,16 @@
 targets:
   bootstrap:
-    {}
+    resource_overrides:
+
+      # Disable all pipelines during bootstrap
+      resources.pipelines.airquality_pipeline:
+        enabled: false
+
+      # Disable all ingestion jobs during bootstrap
+      resources.jobs.get_met_stations:
+        enabled: false
+
+      resources.jobs.ingest_update_met:
+        enabled: false
+
+      # Keep only the bootstrap job enabled (default enabled = true)
