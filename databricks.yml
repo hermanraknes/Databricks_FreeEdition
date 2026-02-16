@@ -1,6 +1,5 @@
 bundle:
   name: met_bundle
-  version: 1
 
 include:
   - resources/**/*.yml
