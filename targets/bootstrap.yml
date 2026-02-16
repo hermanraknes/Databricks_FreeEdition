@@ -1,0 +1,5 @@
+targets:
+  bootstrap:
+    variables:
+      catalog: main_uc_dev
+      repo_root: "/Workspace/Databricks_FreeEdition"

@@ -21,8 +21,6 @@ jobs:
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
       SPN_DEV: ${{ secrets.SPN_DEV }}
       SPN_PROD: ${{ secrets.SPN_PROD }}
-      #PIPELINE_DEV_ID: ${{ secrets.PIPELINE_DEV_ID }}
-      #PIPELINE_PROD_ID: ${{ secrets.PIPELINE_PROD_ID }}
 
     steps:
       - uses: actions/checkout@v4
@@ -32,6 +30,9 @@ jobs:
 
       - name: Validate bundle (dev)
         run: databricks bundle validate -t dev
+
+      - name: Bootstrap Unity Catalog (dev)
+        run: databricks bundle run bootstrap_uc -t dev
 
       - name: Deploy bundle (dev)
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
