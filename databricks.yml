@@ -10,14 +10,9 @@ variables:
     description: "Unity Catalog to use for this target"
     default: ""
 
-  pipeline_id:
-    description: "Pipeline ID (dynamic per target)"
-    default: ""
-
   schema:
     description: "Default schema for dev pipeline outputs"
     default: "air_quality"
-
 
   repo_root:
     description: "Base Workspace path for notebooks"

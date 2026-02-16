@@ -4,5 +4,4 @@ resources:
 
 variables:
   catalog: ${catalog}
-  schema: ${schema}
   repo_root: ${repo_root}

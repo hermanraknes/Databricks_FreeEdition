@@ -1,7 +1,8 @@
-targets:
-  dev:
-    default: true
-    variables:
-      catalog: main_uc_dev
-      pipeline_id: ""
-      repo_root: "/Workspace/Databricks_FreeEdition"
+resources:
+  jobs:
+    get_met_stations: {}
+    ingest_update_met: {}
+
+variables:
+  catalog: main_uc_dev
+  repo_root: "/Workspace/Databricks_FreeEdition"
