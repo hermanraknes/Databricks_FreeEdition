@@ -1,7 +1,3 @@
-name: bootstrap_uc
-
-description: Bootstrap job to create catalogs and schemas
-
 resources:
   - jobs/bootstrap_uc.yml
 
