@@ -1,13 +1,10 @@
-resources:
-  jobs:
-    bootstrap_uc:
-      name: "Create Catalogs"
-      tasks:
-        - task_key: create_uc
-          notebook_task:
-            notebook_path: "${var.repo_root}/ADMIN/bootstrap_uc"
-            source: WORKSPACE
-            base_parameters:
-              catalog_name: ${var.catalog}
-      run_as:
-        user_name: "herman.lillejord@gmail.com"
+name: "bootstrap_uc"   # job name must match the reference
+tasks:
+  - task_key: create_uc
+    notebook_task:
+      notebook_path: "${var.repo_root}/ADMIN/bootstrap_uc"
+      source: WORKSPACE
+      base_parameters:
+        catalog_name: ${var.catalog}
+run_as:
+  user_name: "herman.lillejord@gmail.com"
