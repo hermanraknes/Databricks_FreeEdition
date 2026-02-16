@@ -5,7 +5,7 @@ resources:
       tasks:
         - task_key: create_uc
           notebook_task:
-            notebook_path: "${var.repo_root}/ADMIN/bootstrap_uc.sql"
+            notebook_path: "${var.repo_root}/ADMIN/bootstrap_uc"
             source: WORKSPACE
             base_parameters:
               catalog_name: ${var.catalog}
