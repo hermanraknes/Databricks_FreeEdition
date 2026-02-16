@@ -3,10 +3,6 @@ resources:
     get_met_stations:
       name: "Get MET Stations (${bundle.target})"
 
-      permissions:
-        - level: CAN_VIEW
-          group_name: data_engineers
-
       tasks:
         - task_key: run_get_met_stations
           notebook_task:
