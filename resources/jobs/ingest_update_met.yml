@@ -9,7 +9,6 @@ resources:
             notebook_path: "${var.repo_root}/MET/DATA INGEST/Ingest Update MET"
             base_parameters:
               catalog: ${var.catalog}
-              pipeline_id: ${var.pipeline_id}
 
       run_as:
         user_name: "herman.lillejord@gmail.com"
