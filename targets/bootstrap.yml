@@ -1,16 +1,11 @@
-targets:
-  bootstrap:
-    resource_overrides:
+name: bootstrap_uc
 
-      # Disable all pipelines during bootstrap
-      resources.pipelines.airquality_pipeline:
-        enabled: false
+description: Bootstrap job to create catalogs and schemas
 
-      # Disable all ingestion jobs during bootstrap
-      resources.jobs.get_met_stations:
-        enabled: false
+resources:
+  - jobs/bootstrap_uc.yml
 
-      resources.jobs.ingest_update_met:
-        enabled: false
-
-      # Keep only the bootstrap job enabled (default enabled = true)
+variables:
+  catalog: ${catalog}
+  schema: ${schema}
+  repo_root: ${repo_root}

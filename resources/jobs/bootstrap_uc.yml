@@ -1,7 +1,7 @@
 resources:
   jobs:
     bootstrap_uc:
-      name: "Bootstrap Unity Catalog (${bundle.target})"
+      name: "Create Catalogs"
       tasks:
         - task_key: create_uc
           notebook_task:
