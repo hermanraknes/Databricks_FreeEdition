@@ -12,4 +12,4 @@ resources:
               pipeline_id: ${var.pipeline_id}
 
       run_as:
-        service_principal_name: ${var.service_principal}
+        user_name: "herman.lillejord@gmail.com"

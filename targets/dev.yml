@@ -4,5 +4,4 @@ targets:
     variables:
       catalog: main_uc_dev
       pipeline_id: ""
-      service_principal: "389b968b-e9ed-40d7-a564-1db5f93cd594"
       repo_root: "/Workspace/Databricks_FreeEdition"
