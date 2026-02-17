@@ -2,14 +2,14 @@ resources:
   pipelines:
     airquality_pipeline:
       name: "Air Quality Pipeline (${bundle.target})"
-      development: true
+      development: ${if(bundle.target == "prod", false, true)}
       continuous: false
       channel: current
       photon: true
       serverless: true
 
       catalog: ${var.catalog}
-      target: "${var.catalog}.bronze"
+      target: "bronze"
 
       libraries:
         - notebook:
