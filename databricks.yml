@@ -8,11 +8,7 @@ include:
 variables:
   catalog:
     description: "Unity Catalog to use for this target"
-    default: ""
-
-  schema:
-    description: "Default schema for dev pipeline outputs"
-    default: "air_quality"
+    default: "main_uc_dev"
 
   repo_root:
     description: "Base Workspace path for notebooks"

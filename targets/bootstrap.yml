@@ -1,7 +1,11 @@
-resources:
-  jobs:
-    bootstrap_uc: {}
-
-variables:
-  catalog: ${catalog}
-  repo_root: ${repo_root}
+targets:
+  bootstrap:
+    mode: development
+    default: false
+    variables:
+      catalog: ${var.catalog}
+      repo_root: "/Workspace/Databricks_FreeEdition"
+    resources:
+      jobs:
+        bootstrap_uc:
+          name: "Create Catalogs"

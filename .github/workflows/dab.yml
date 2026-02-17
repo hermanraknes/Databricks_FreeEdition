@@ -6,6 +6,10 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
     inputs:
+      run_bootstrap:
+        description: "Run bootstrap (Create UC/Schemas)"
+        type: boolean
+        default: false
       run_job:
         description: "Run ingest_update_met after deploy?"
         type: boolean
@@ -26,22 +30,23 @@ jobs:
       - name: Install Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: Validate bootstrap target
-        run: databricks bundle validate -t bootstrap
-
-      - name: Deploy bootstrap target
-        run: databricks bundle deploy -t bootstrap
-
-      - name: Run bootstrap job (creates dev catalog/schema)
-        run: databricks bundle run bootstrap_uc -t bootstrap
-
-      - name: Validate dev target
-        run: databricks bundle validate -t dev
-
-      - name: Deploy dev target
+      # --- BOOTSTRAP ---
+      - name: Deploy and run bootstrap
+        if: github.event.inputs.run_bootstrap == 'true'
+        run: |
+          databricks bundle deploy -t bootstrap
+          databricks bundle run bootstrap_uc -t bootstrap
+      
+      # --- VALIDATION ---
+      - name: Validate Dev Target
+          databricks bundle validate -t dev
+      
+      # --- DEPLOYMENT ---
+      - name: Deploy Dev Target
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: databricks bundle deploy -t dev
 
+      # --- OPTIONAL RUN ---
       - name: Run main dev job
-        if: github.event_name == 'workflow_dispatch' && inputs.run_job == true
+        if: github.event.inputs.run_job == true
         run: databricks bundle run ingest_update_met -t dev

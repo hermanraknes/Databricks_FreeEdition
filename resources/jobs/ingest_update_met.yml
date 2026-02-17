@@ -11,4 +11,4 @@ resources:
               catalog: ${var.catalog}
 
       run_as:
-        user_name: "herman.lillejord@gmail.com"
+        user_name: ${workspace.current_user.userName}
