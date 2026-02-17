@@ -1,24 +1,27 @@
 bundle:
   name: met_bundle
 
-# 1. Global includes are back (this makes the YAMLs valid)
 include:
   - resources/bootstrap/*.yml
   - resources/jobs/*.yml
   - resources/pipelines/*.yml
 
 variables:
+  # Define BOTH globally so the validator is always happy
   catalog:
+    default: "main_uc_dev"
+  bootstrap_catalog:
     default: "main_uc_dev"
   is_dev_mode:
     default: true
+  repo_root:
+    default: "/Workspace/Databricks_FreeEdition"
 
 targets:
   dev:
     mode: development
     default: true
     sync:
-      # Exclude the bootstrap logic so it doesn't create duplicate admin jobs
       exclude:
         - resources/bootstrap/*
     variables:
@@ -27,7 +30,6 @@ targets:
   prod:
     mode: production
     sync:
-      # Exclude the bootstrap logic
       exclude:
         - resources/bootstrap/*
     variables:
@@ -37,8 +39,6 @@ targets:
   bootstrap:
     mode: development
     sync:
-      # THE KEY: Exclude the data jobs and pipelines 
-      # This prevents the "(bootstrap)" duplicates in your UI
       exclude:
         - resources/jobs/*
         - resources/pipelines/*
