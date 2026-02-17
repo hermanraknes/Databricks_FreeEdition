@@ -48,5 +48,5 @@ jobs:
 
       # --- OPTIONAL RUN ---
       - name: Run main dev job
-        if: github.event.inputs.run_job == true
+        if: github.event.inputs.run_job == 'true'
         run: databricks bundle run ingest_update_met -t dev

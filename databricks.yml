@@ -1,10 +1,6 @@
 bundle:
   name: met_bundle
 
-include:
-  - resources/**/*.yml
-  - targets/*.yml
-
 variables:
   catalog:
     description: "Unity Catalog to use for this target"
@@ -13,3 +9,27 @@ variables:
   repo_root:
     description: "Base Workspace path for notebooks"
     default: "/Workspace/Databricks_FreeEdition"
+
+targets:
+  dev:
+    mode: development
+    default: true
+    variables:
+      catalog: main_uc_dev
+    include:
+      - resources/jobs/*.yml
+      - resources/pipelines/*.yml 
+
+  prod:
+    mode: production
+    variables:
+      catalog: main_uc_prod
+    include:
+      - resources/jobs/*.yml
+      - resources/pipelines/*.yml 
+
+  bootstrap:
+    mode: development
+    include:
+      - resources/bootstrap/*.yml
+
