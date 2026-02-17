@@ -16,5 +16,10 @@ resources:
       root_path: "${var.repo_root}/MET/PIPELINE/Airquality Pipeline"
 
       libraries:
-        - glob:
-            include:"${var.repo_root}/MET/PIPELINE/Airquality Pipeline/transformations/**"
+      - {}
+      - file:
+          path: ${var.repo_root}/MET/PIPELINE/Airquality Pipeline/transformations/bronze.py
+      - file:
+          path: ${var.repo_root}/MET/PIPELINE/Airquality Pipeline/transformations/gold.py
+      - file:
+          path: ${var.repo_root}/MET/PIPELINE/Airquality Pipeline/transformations/silver.py

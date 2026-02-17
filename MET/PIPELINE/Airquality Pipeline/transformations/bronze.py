@@ -1,7 +1,7 @@
 from pyspark import pipelines as dp
 from MET.PIPELINE.bronze_pipeline.functions import add_ingest_ts
 
-catalog = spark.conf.get("catalog", "main_uc_dev")  # fallback
+catalog = spark.conf.get("catalog", "main_uc_dev")
 
 SOURCE_ROOT = f"/Volumes/{catalog}/bronze/met_bergen_airquality_jsondumps"
 BRONZE_TABLE = f"{catalog}.bronze.met_airquality_bronze"
@@ -21,5 +21,4 @@ def met_airquality_bronze():
         .option("cloudFiles.inferColumnTypes", "true")
         .load(SOURCE_ROOT)
     )
-
     return add_ingest_ts(df)
