@@ -2,12 +2,15 @@ resources:
   pipelines:
     airquality_pipeline:
       name: "Air Quality Pipeline (${bundle.target})"
-      development: ${if(bundle.target == "prod", false, true)}
+      
+      # Use the variable instead of the 'if' function here
+      # to ensure the CLI sees it as a boolean.
+      development: ${var.is_dev_mode}
+      
       continuous: false
       channel: current
       photon: true
       serverless: true
-
       catalog: ${var.catalog}
       target: "bronze"
 

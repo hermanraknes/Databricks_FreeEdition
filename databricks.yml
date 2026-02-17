@@ -16,15 +16,21 @@ variables:
   repo_root:
     default: "/Workspace/Databricks_FreeEdition"
 
+  is_dev_mode:
+    default: true
+
 targets:
   dev:
     mode: development
     default: true
+    variables:
+      is_dev_mode: true
 
   prod:
     mode: production
     variables:
       catalog: main_uc_prod
+      is_dev_mode: false
 
   bootstrap:
     mode: development
