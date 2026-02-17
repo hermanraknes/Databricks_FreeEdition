@@ -4,6 +4,20 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      run_bootstrap:
+        description: "Run bootstrap (Create UC/Schemas)"
+        type: boolean
+        default: false
+      run_jobs:
+        description: "Run ingest/pipeline after deploy?"
+        type: boolean
+        default: false
+      run_pipelines:
+        description: "Run pipeline after deploy?"
+        type: boolean
+        default: false
 
 jobs:
   deploy-prod:
@@ -43,10 +57,12 @@ jobs:
 
       # --- RUN WORKFLOWS ---
       - name: Run main prod jobs
+        if: github.event.inputs.run_jobs == 'true'
         run: |
           databricks bundle run get_met_stations -t prod
           databricks bundle run ingest_update_met -t prod
 
-      - name: Run Pipeline
+      - name: Run main prod pipelines
+        if: github.event.inputs.run_pipelines == 'true'
         run: |
           databricks bundle run airquality_pipeline -t prod
