@@ -18,7 +18,7 @@ targets:
   prod:
     mode: production
     workspace:
-      root_path: /Workspace/Shared/Production/MET_App
+      root_path: /Workspace/Shared/Production/MET_Infrastructure
     variables:
       bootstrap_catalog: "main_uc_prod"
       env_tag: "Production"
