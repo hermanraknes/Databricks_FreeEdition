@@ -1,42 +1,44 @@
 bundle:
   name: met_bundle
 
+# 1. Global includes are back (this makes the YAMLs valid)
+include:
+  - resources/bootstrap/*.yml
+  - resources/jobs/*.yml
+  - resources/pipelines/*.yml
+
 variables:
   catalog:
     default: "main_uc_dev"
   is_dev_mode:
     default: true
-  repo_root:
-    default: "/Workspace/Databricks_FreeEdition"
 
 targets:
   dev:
     mode: development
     default: true
-    # We define the resources explicitly for this target
-    resources:
-      jobs:
-        get_met_stations: ${file(resources/jobs/get_met_stations.yml).resources.jobs.get_met_stations}
-        ingest_update_met: ${file(resources/jobs/ingest_update_met.yml).resources.jobs.ingest_update_met}
-      pipelines:
-        airquality_pipeline: ${file(resources/pipelines/pipeline_airquality.yml).resources.pipelines.airquality_pipeline}
+    sync:
+      # Exclude the bootstrap logic so it doesn't create duplicate admin jobs
+      exclude:
+        - resources/bootstrap/*
     variables:
       is_dev_mode: true
 
   prod:
     mode: production
-    resources:
-      jobs:
-        get_met_stations: ${file(resources/jobs/get_met_stations.yml).resources.jobs.get_met_stations}
-        ingest_update_met: ${file(resources/jobs/ingest_update_met.yml).resources.jobs.ingest_update_met}
-      pipelines:
-        airquality_pipeline: ${file(resources/pipelines/pipeline_airquality.yml).resources.pipelines.airquality_pipeline}
+    sync:
+      # Exclude the bootstrap logic
+      exclude:
+        - resources/bootstrap/*
     variables:
       catalog: main_uc_prod
       is_dev_mode: false
 
   bootstrap:
     mode: development
-    resources:
-      jobs:
-        bootstrap_uc: ${file(resources/bootstrap/bootstrap_uc.yml).resources.jobs.bootstrap_uc}
+    sync:
+      # THE KEY: Exclude the data jobs and pipelines 
+      # This prevents the "(bootstrap)" duplicates in your UI
+      exclude:
+        - resources/jobs/*
+        - resources/pipelines/*
