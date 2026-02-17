@@ -1,67 +1,38 @@
 bundle:
   name: met_bundle
 
+# Include all your resource files globally
+include:
+  - resources/bootstrap/*.yml
+  - resources/jobs/*.yml
+  - resources/pipelines/*.yml
+
 variables:
-  catalog: { default: "main_uc_dev" }
-  bootstrap_catalog: { default: "main_uc_dev" }
-  is_dev_mode: { default: true }
-  repo_root: { default: "/Workspace/Databricks_FreeEdition" }
+  # Define these here so every target can "see" them during validation
+  catalog:
+    default: "main_uc_dev"
+  bootstrap_catalog:
+    default: "main_uc_dev"
+  is_dev_mode:
+    default: true
+  repo_root:
+    default: "/Workspace/Databricks_FreeEdition"
 
 targets:
-  # 1. BOOTSTRAP: Only define the Catalog Creation here
+  # The target for creating your infrastructure
   bootstrap:
     mode: development
-    resources:
-      jobs:
-        bootstrap_uc:
-          name: "Create Catalogs"
-          tasks:
-            - task_key: create_cat
-              notebook_task:
-                notebook_path: "${var.repo_root}/ADMIN/bootstrap_uc"
 
-  # 2. DEV: Define MET jobs/pipelines here
+  # The target for your daily development work
   dev:
     mode: development
     default: true
-    variables: { is_dev_mode: true }
-    resources:
-      jobs:
-        get_met_stations:
-          name: "Get MET Stations (dev)"
-          tasks:
-            - task_key: get_stations
-              notebook_task:
-                notebook_path: "${var.repo_root}/MET/DATA INGEST/Get MET Stations"
-      pipelines:
-        airquality_pipeline:
-          name: "Air Quality Pipeline (dev)"
-          catalog: "${var.catalog}"
-          target: "bronze"
-          libraries:
-            - notebook:
-                path: "${var.repo_root}/MET/DATA INGEST/AirQualityPipeline"
+    variables:
+      is_dev_mode: true
 
-  # 3. PROD: Reuse the same definitions with Prod settings
+  # The target for your production automation
   prod:
     mode: production
     variables:
       catalog: main_uc_prod
       is_dev_mode: false
-    resources:
-      jobs:
-        get_met_stations:
-          name: "Get MET Stations (prod)"
-          tasks:
-            - task_key: get_stations
-              notebook_task:
-                notebook_path: "${var.repo_root}/MET/DATA INGEST/Get MET Stations"
-      pipelines:
-        airquality_pipeline:
-          name: "Air Quality Pipeline (prod)"
-          catalog: "${var.catalog}"
-          target: "bronze"
-          development: false
-          libraries:
-            - notebook:
-                path: "${var.repo_root}/MET/DATA INGEST/AirQualityPipeline"
