@@ -38,3 +38,6 @@ jobs:
         run: |
           databricks bundle run get_met_stations -t prod
           databricks bundle run ingest_update_met -t prod
+
+      - name: Run Pipeline
+        run: databricks bundle run airquality_pipeline -t prod
