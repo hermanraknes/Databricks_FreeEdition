@@ -24,7 +24,7 @@ jobs:
       - name: Deploy and run bootstrap for PROD
         run: |
           # Overriding the catalog variable specifically for this run
-          databricks bundle deploy -t bootstrap --var="catalog=main_uc_prod"
+          databricks bundle deploy -t bootstrap --var="catalog=main_uc_prod" --auto-approve
           databricks bundle run bootstrap_uc -t bootstrap --var="catalog=main_uc_prod"
       
       # --- DEPLOY PROD ---
@@ -32,7 +32,7 @@ jobs:
         run: databricks bundle validate -t prod
 
       - name: Deploy prod target
-        run: databricks bundle deploy -t prod
+        run: databricks bundle deploy -t prod --auto-approve
 
       - name: Run main prod job
         run: |

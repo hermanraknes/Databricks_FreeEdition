@@ -1,10 +1,10 @@
 bundle:
   name: met_bundle
 
+# ONLY include the bootstrap job globally. 
+# This is safe because it doesn't have DLT catalog conflicts.
 include:
   - resources/bootstrap/*.yml
-  - resources/jobs/*.yml
-  - resources/pipelines/*.yml
 
 variables:
   catalog:
@@ -16,22 +16,25 @@ targets:
   dev:
     mode: development
     default: true
+    # We "import" the resources by defining them here.
+    # On older CLIs, if 'include' fails, you can point to the files directly.
+    resources:
+      jobs:
+        get_met_stations: ${file(resources/jobs/get_met_stations.yml).resources.jobs.get_met_stations}
+        ingest_update_met: ${file(resources/jobs/ingest_update_met.yml).resources.jobs.ingest_update_met}
+      pipelines:
+        airquality_pipeline: ${file(resources/pipelines/airquality.yml).resources.pipelines.airquality_pipeline}
 
   prod:
     mode: production
     variables:
       catalog: main_uc_prod
+    resources:
+      jobs:
+        get_met_stations: ${file(resources/jobs/get_met_stations.yml).resources.jobs.get_met_stations}
+        ingest_update_met: ${file(resources/jobs/ingest_update_met.yml).resources.jobs.ingest_update_met}
+      pipelines:
+        airquality_pipeline: ${file(resources/pipelines/airquality.yml).resources.pipelines.airquality_pipeline}
 
   bootstrap:
     mode: development
-    resources:
-      jobs:
-        get_met_stations:
-          name: "skip"
-          enabled: false
-        ingest_update_met:
-          name: "skip"
-          enabled: false
-      pipelines:
-        airquality_pipeline:
-          name: "skip"
