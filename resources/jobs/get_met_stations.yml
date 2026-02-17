@@ -11,6 +11,7 @@ resources:
             notebook_path: "${var.repo_root}/MET/DATA INGEST/Get Met Stations"
             base_parameters:
               catalog: ${var.catalog}
+              user_email: "${workspace.current_user.userName}"
 
       run_as:
         user_name: ${workspace.current_user.userName}
