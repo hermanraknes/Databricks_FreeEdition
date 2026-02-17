@@ -2,6 +2,8 @@ resources:
   pipelines:
     airquality_pipeline:
       name: "Air Quality Pipeline (${bundle.target})"
+      tags:
+        Env: "${var.env_tag}"
       
       # Use the variable instead of the 'if' function here
       # to ensure the CLI sees it as a boolean.

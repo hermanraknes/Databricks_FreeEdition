@@ -2,6 +2,8 @@ resources:
   jobs:
     ingest_update_met:
       name: "Ingest MET Data (${bundle.target})"
+      tags:
+        Env: "${var.env_tag}"
 
       tasks:
         - task_key: ingest_update

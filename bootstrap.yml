@@ -14,6 +14,6 @@ targets:
   dev:
     mode: development
   prod:
-    mode: development # Or production if you prefer
+    mode: production
     variables:
       bootstrap_catalog: "main_uc_prod"
