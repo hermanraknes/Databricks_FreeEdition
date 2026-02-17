@@ -14,6 +14,10 @@ on:
         description: "Run ingest/pipeline after deploy?"
         type: boolean
         default: false
+      run_pipeline:
+        description: "Run pipeline after deploy?"
+        type: boolean
+        default: false
 
 jobs:
   deploy:
