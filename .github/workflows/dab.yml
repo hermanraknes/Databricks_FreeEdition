@@ -30,23 +30,19 @@ jobs:
       - name: Install Databricks CLI
         uses: databricks/setup-cli@main
 
-      # --- BOOTSTRAP ---
       - name: Deploy and run bootstrap
         if: github.event.inputs.run_bootstrap == 'true'
         run: |
           databricks bundle deploy -t bootstrap
           databricks bundle run bootstrap_uc -t bootstrap
       
-      # --- VALIDATION ---
       - name: Validate Dev Target
           databricks bundle validate -t dev
       
-      # --- DEPLOYMENT ---
       - name: Deploy Dev Target
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: databricks bundle deploy -t dev
 
-      # --- OPTIONAL RUN ---
       - name: Run main dev job
         if: github.event.inputs.run_job == true
         run: databricks bundle run ingest_update_met -t dev
