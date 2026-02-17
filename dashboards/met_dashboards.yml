@@ -1,0 +1,5 @@
+resources:
+  dashboards:
+    met_aq_dashboard:
+      display_name: "MET Air Quality Forecast"
+      file_path: ../../dashboards/airquality_dashboard.lvdash.json

@@ -1,0 +1,307 @@
+{
+  "datasets": [
+    {
+      "name": "880f73c0",
+      "displayName": "met_airquality_geo_latest_with_trend",
+      "queryLines": [
+        "SELECT * FROM main_uc_prod.gold.met_airquality_geo_latest_with_trend"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "3e7dd01d",
+      "displayName": "Dashboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "45606bcb",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "880f73c0",
+                  "fields": [
+                    {
+                      "name": "trend",
+                      "expression": "`trend`"
+                    },
+                    {
+                      "name": "latitude",
+                      "expression": "`latitude`"
+                    },
+                    {
+                      "name": "longitude",
+                      "expression": "`longitude`"
+                    },
+                    {
+                      "name": "kommune",
+                      "expression": "`kommune`"
+                    },
+                    {
+                      "name": "station_name",
+                      "expression": "`station_name`"
+                    },
+                    {
+                      "name": "hour_ts",
+                      "expression": "`hour_ts`"
+                    },
+                    {
+                      "name": "value",
+                      "expression": "`value`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "symbol-map",
+              "encodings": {
+                "coordinates": {
+                  "latitude": {
+                    "fieldName": "latitude"
+                  },
+                  "longitude": {
+                    "fieldName": "longitude"
+                  }
+                },
+                "color": {
+                  "fieldName": "trend",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "Decreasing",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 3
+                        }
+                      },
+                      {
+                        "value": "Increasing",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 6
+                        }
+                      }
+                    ]
+                  }
+                },
+                "size": {
+                  "fieldName": "value",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "extra": [
+                  {
+                    "fieldName": "kommune"
+                  },
+                  {
+                    "fieldName": "station_name"
+                  },
+                  {
+                    "fieldName": "hour_ts"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 6,
+            "height": 11
+          }
+        },
+        {
+          "widget": {
+            "name": "e5c320e9",
+            "queries": [
+              {
+                "name": "dashboards/01f10c0b8c8c14419aee0832bcba6c2b/datasets/01f10c0c7440156f902d422ac4cc3470_variable",
+                "query": {
+                  "datasetName": "880f73c0",
+                  "fields": [
+                    {
+                      "name": "variable",
+                      "expression": "`variable`"
+                    },
+                    {
+                      "name": "variable_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true
+              },
+              "disallowAll": true,
+              "selection": {
+                "defaultSelection": {
+                  "values": {
+                    "dataType": "STRING",
+                    "values": [
+                      {
+                        "value": "AQI"
+                      }
+                    ]
+                  }
+                }
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "variable",
+                    "queryName": "dashboards/01f10c0b8c8c14419aee0832bcba6c2b/datasets/01f10c0c7440156f902d422ac4cc3470_variable"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "e3427083",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "880f73c0",
+                  "fields": [
+                    {
+                      "name": "kommune",
+                      "expression": "`kommune`"
+                    },
+                    {
+                      "name": "hourly(hour_ts)",
+                      "expression": "DATE_TRUNC(\"HOUR\", `hour_ts`)"
+                    },
+                    {
+                      "name": "station_name",
+                      "expression": "`station_name`"
+                    },
+                    {
+                      "name": "sum(value)",
+                      "expression": "SUM(`value`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "station_name",
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(value)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "kommune",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "extra": [
+                  {
+                    "fieldName": "hourly(hour_ts)"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 1,
+            "width": 6,
+            "height": 11
+          }
+        },
+        {
+          "widget": {
+            "name": "8128dd7c",
+            "queries": [
+              {
+                "name": "dashboards/01f10c0b8c8c14419aee0832bcba6c2b/datasets/01f10c0c7440156f902d422ac4cc3470_kommune",
+                "query": {
+                  "datasetName": "880f73c0",
+                  "fields": [
+                    {
+                      "name": "kommune",
+                      "expression": "`kommune`"
+                    },
+                    {
+                      "name": "kommune_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "kommune",
+                    "queryName": "dashboards/01f10c0b8c8c14419aee0832bcba6c2b/datasets/01f10c0c7440156f902d422ac4cc3470_kommune"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 6,
+            "height": 1
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
