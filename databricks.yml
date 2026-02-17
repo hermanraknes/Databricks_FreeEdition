@@ -7,30 +7,38 @@ include:
   - resources/pipelines/*.yml
 
 variables:
+  # Define BOTH globally so the validator is always happy
   catalog:
     default: "main_uc_dev"
-    
   bootstrap_catalog:
     default: "main_uc_dev"
-
-  repo_root:
-    default: "/Workspace/Databricks_FreeEdition"
-
   is_dev_mode:
     default: true
+  repo_root:
+    default: "/Workspace/Databricks_FreeEdition"
 
 targets:
   dev:
     mode: development
     default: true
+    sync:
+      exclude:
+        - resources/bootstrap/*
     variables:
       is_dev_mode: true
 
   prod:
     mode: production
+    sync:
+      exclude:
+        - resources/bootstrap/*
     variables:
       catalog: main_uc_prod
       is_dev_mode: false
 
   bootstrap:
-    mode: development 
+    mode: development
+    sync:
+      exclude:
+        - resources/jobs/*
+        - resources/pipelines/*
