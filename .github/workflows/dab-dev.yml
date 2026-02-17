@@ -49,4 +49,7 @@ jobs:
       # --- OPTIONAL RUN ---
       - name: Run main dev job
         if: github.event.inputs.run_job == 'true'
-        run: databricks bundle run ingest_update_met -t dev
+        run: |
+          databricks bundle run get_met_stations -t dev
+          databricks bundle run ingest_update_met -t dev
+          databricks bundle run airquality_pipeline -t dev
