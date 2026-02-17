@@ -2,45 +2,66 @@ bundle:
   name: met_bundle
 
 variables:
-  catalog:
-    default: "main_uc_dev"
-  bootstrap_catalog:
-    default: "main_uc_dev"
-  is_dev_mode:
-    default: true
-  repo_root:
-    default: "/Workspace/Databricks_FreeEdition"
+  catalog: { default: "main_uc_dev" }
+  bootstrap_catalog: { default: "main_uc_dev" }
+  is_dev_mode: { default: true }
+  repo_root: { default: "/Workspace/Databricks_FreeEdition" }
 
 targets:
-  # 1. BOOTSTRAP: Only sees the catalog creation job
+  # 1. BOOTSTRAP: Only define the Catalog Creation here
   bootstrap:
     mode: development
     resources:
       jobs:
-        bootstrap_uc: ${file(resources/bootstrap/bootstrap_uc.yml).resources.jobs.bootstrap_uc}
+        bootstrap_uc:
+          name: "Create Catalogs"
+          tasks:
+            - task_key: create_cat
+              notebook_task:
+                notebook_path: "${var.repo_root}/ADMIN/CreateCatalogs"
 
-  # 2. DEV: Only sees the data jobs and pipelines
+  # 2. DEV: Define MET jobs/pipelines here
   dev:
     mode: development
     default: true
+    variables: { is_dev_mode: true }
     resources:
       jobs:
-        get_met_stations: ${file(resources/jobs/get_met_stations.yml).resources.jobs.get_met_stations}
-        ingest_update_met: ${file(resources/jobs/ingest_update_met.yml).resources.jobs.ingest_update_met}
+        get_met_stations:
+          name: "Get MET Stations (dev)"
+          tasks:
+            - task_key: get_stations
+              notebook_task:
+                notebook_path: "${var.repo_root}/MET/DATA INGEST/Get MET Stations"
       pipelines:
-        airquality_pipeline: ${file(resources/pipelines/pipeline_airquality.yml).resources.pipelines.airquality_pipeline}
-    variables:
-      is_dev_mode: true
+        airquality_pipeline:
+          name: "Air Quality Pipeline (dev)"
+          catalog: "${var.catalog}"
+          target: "bronze"
+          libraries:
+            - notebook:
+                path: "${var.repo_root}/MET/DATA INGEST/AirQualityPipeline"
 
-  # 3. PROD: Only sees the data jobs and pipelines (using prod vars)
+  # 3. PROD: Reuse the same definitions with Prod settings
   prod:
     mode: production
-    resources:
-      jobs:
-        get_met_stations: ${file(resources/jobs/get_met_stations.yml).resources.jobs.get_met_stations}
-        ingest_update_met: ${file(resources/jobs/ingest_update_met.yml).resources.jobs.ingest_update_met}
-      pipelines:
-        airquality_pipeline: ${file(resources/pipelines/pipeline_airquality.yml).resources.pipelines.airquality_pipeline}
     variables:
       catalog: main_uc_prod
       is_dev_mode: false
+    resources:
+      jobs:
+        get_met_stations:
+          name: "Get MET Stations (prod)"
+          tasks:
+            - task_key: get_stations
+              notebook_task:
+                notebook_path: "${var.repo_root}/MET/DATA INGEST/Get MET Stations"
+      pipelines:
+        airquality_pipeline:
+          name: "Air Quality Pipeline (prod)"
+          catalog: "${var.catalog}"
+          target: "bronze"
+          development: false
+          libraries:
+            - notebook:
+                path: "${var.repo_root}/MET/DATA INGEST/AirQualityPipeline"
