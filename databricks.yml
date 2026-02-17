@@ -33,4 +33,4 @@ targets:
       is_dev_mode: false
 
   bootstrap:
-    mode: development
+    mode: development 
