@@ -1,7 +1,6 @@
 bundle:
   name: met_bundle
 
-# Only include the bootstrap job globally
 include:
   - resources/bootstrap/*.yml
   - resources/jobs/*.yml
@@ -28,9 +27,11 @@ targets:
     resources:
       jobs:
         get_met_stations:
-          $o.delete: true
+          name: "skip"
+          enabled: false
         ingest_update_met:
-          $o.delete: true
+          name: "skip"
+          enabled: false
       pipelines:
         airquality_pipeline:
-          $o.delete: true
+          name: "skip"
