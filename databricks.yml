@@ -1,16 +1,12 @@
 bundle:
-  name: met_bundle
+  name: met_data_app
 
-# Include all your resource files globally
 include:
-  - resources/bootstrap/*.yml
   - resources/jobs/*.yml
+  - resources/pipelines/*.yml
 
 variables:
-  # Define these here so every target can "see" them during validation
   catalog:
-    default: "main_uc_dev"
-  bootstrap_catalog:
     default: "main_uc_dev"
   is_dev_mode:
     default: true
@@ -18,18 +14,9 @@ variables:
     default: "/Workspace/Databricks_FreeEdition"
 
 targets:
-  # The target for creating your infrastructure
-  bootstrap:
-    mode: development
-
-  # The target for your daily development work
   dev:
     mode: development
     default: true
-    variables:
-      is_dev_mode: true
-
-  # The target for your production automation
   prod:
     mode: production
     variables:

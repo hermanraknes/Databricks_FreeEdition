@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Databricks auth
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
 
@@ -23,9 +22,9 @@ jobs:
       # --- BOOTSTRAP ---
       - name: Deploy and run bootstrap for PROD
         run: |
-          # Overriding the catalog variable specifically for this run
-          databricks bundle deploy -t bootstrap --var="bootstrap_catalog=main_uc_prod" --auto-approve
-          databricks bundle run bootstrap_uc -t bootstrap --var="bootstrap_catalog=main_uc_prod"
+          # Point to bootstrap.yml and use the prod target
+          databricks bundle deploy -c bootstrap.yml -t prod --auto-approve
+          databricks bundle run bootstrap_uc -c bootstrap.yml -t prod
       
       # --- DEPLOY PROD ---
       - name: Validate prod target
@@ -34,10 +33,12 @@ jobs:
       - name: Deploy prod target
         run: databricks bundle deploy -t prod --auto-approve
 
-      - name: Run main prod job
+      # --- RUN WORKFLOWS ---
+      - name: Run main prod jobs
         run: |
           databricks bundle run get_met_stations -t prod
           databricks bundle run ingest_update_met -t prod
 
       - name: Run Pipeline
-        run: databricks bundle run airquality_pipeline -t prod
+        run: |
+          databricks bundle run airquality_pipeline -t prod

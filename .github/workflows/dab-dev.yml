@@ -11,7 +11,7 @@ on:
         type: boolean
         default: false
       run_job:
-        description: "Run ingest_update_met after deploy?"
+        description: "Run ingest/pipeline after deploy?"
         type: boolean
         default: false
 
@@ -20,7 +20,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Databricks auth
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
 
@@ -34,8 +33,9 @@ jobs:
       - name: Deploy and run bootstrap
         if: github.event.inputs.run_bootstrap == 'true'
         run: |
-          databricks bundle deploy -t bootstrap
-          databricks bundle run bootstrap_uc -t bootstrap
+          # Use -c to specify the bootstrap config
+          databricks bundle deploy -c bootstrap.yml -t dev
+          databricks bundle run bootstrap_uc -c bootstrap.yml -t dev
       
       # --- VALIDATION ---
       - name: Validate Dev Target
@@ -47,7 +47,7 @@ jobs:
         run: databricks bundle deploy -t dev --auto-approve
 
       # --- OPTIONAL RUN ---
-      - name: Run main dev job
+      - name: Run main dev jobs and pipeline
         if: github.event.inputs.run_job == 'true'
         run: |
           databricks bundle run get_met_stations -t dev

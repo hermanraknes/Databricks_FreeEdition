@@ -1,0 +1,19 @@
+bundle:
+  name: met_infrastructure
+
+include:
+  - resources/bootstrap/*.yml
+
+variables:
+  bootstrap_catalog:
+    default: "main_uc_dev"
+  repo_root:
+    default: "/Workspace/Databricks_FreeEdition"
+
+targets:
+  dev:
+    mode: development
+  prod:
+    mode: development # Or production if you prefer
+    variables:
+      bootstrap_catalog: "main_uc_prod"
