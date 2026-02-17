@@ -1,7 +1,7 @@
 from pyspark import pipelines as dp
 from MET.PIPELINE.bronze_pipeline.functions import add_ingest_ts
 
-catalog = spark.conf.get("catalog", "main_uc_dev")
+catalog = spark.conf.get("pipeline_catalog")
 
 SOURCE_ROOT = f"/Volumes/{catalog}/bronze/met_bergen_airquality_jsondumps"
 BRONZE_TABLE = f"{catalog}.bronze.met_airquality_bronze"

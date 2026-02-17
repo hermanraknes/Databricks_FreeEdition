@@ -9,7 +9,7 @@ from MET.PIPELINE.gold_pipeline.functions import (
 )
 
 # Read catalog passed from DAB (via pipeline config/parameters)
-catalog = spark.conf.get("catalog", "main_uc_dev")
+catalog = spark.conf.get("pipeline_catalog")
 
 silver_scd1 = f"{catalog}.silver.met_airquality_silver_scd1"
 silver_scd2 = f"{catalog}.silver.met_airquality_silver_scd2"

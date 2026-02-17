@@ -14,7 +14,9 @@ resources:
       photon: true
       serverless: true
       catalog: ${var.catalog}
-      target: "bronze"
+      configuration:
+        pipeline_catalog: "${var.catalog}"
+      schema: "bronze"
       root_path: "${var.repo_root}/MET/PIPELINE/Airquality Pipeline"
 
       libraries:

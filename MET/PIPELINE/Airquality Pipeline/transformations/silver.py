@@ -3,7 +3,7 @@ from pyspark.sql.functions import col
 from MET.PIPELINE.silver_pipeline.functions import transform_cleaned
 
 # Read catalog passed from DAB (via your pipeline parameters/config)
-catalog = spark.conf.get("catalog", "main_uc_dev")
+catalog = spark.conf.get("pipeline_catalog")
 
 bronze_tbl = f"{catalog}.bronze.met_airquality_bronze"
 silver_scd1 = f"{catalog}.silver.met_airquality_silver_scd1"
