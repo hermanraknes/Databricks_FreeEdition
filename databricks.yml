@@ -5,7 +5,6 @@ bundle:
 include:
   - resources/bootstrap/*.yml
   - resources/jobs/*.yml
-  - resources/pipelines/*.yml
 
 variables:
   # Define these here so every target can "see" them during validation
