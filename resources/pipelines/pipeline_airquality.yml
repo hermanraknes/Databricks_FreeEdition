@@ -16,4 +16,4 @@ resources:
 
       libraries:
         - notebook:
-            path: "${var.repo_root}/MET/DATA INGEST/AirQualityPipeline"
+            path: "${var.repo_root}/MET/PIPELINE/Airquality Pipeline"
