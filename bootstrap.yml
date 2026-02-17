@@ -9,6 +9,8 @@ variables:
     default: "main_uc_dev"
   repo_root:
     default: "/Workspace/Databricks_FreeEdition"
+  env_tag:
+    default: "development"
 
 targets:
   dev:
@@ -19,3 +21,4 @@ targets:
       root_path: /Workspace/Shared/Production/MET_App
     variables:
       bootstrap_catalog: "main_uc_prod"
+      env_tag: "Production"
