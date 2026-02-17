@@ -29,13 +29,23 @@ jobs:
       - name: Install Databricks CLI
         uses: databricks/setup-cli@main
 
-      # --- BOOTSTRAP ---
+      # --- BOOTSTRAP (Infrastructure) ---
       - name: Deploy and run bootstrap
         if: github.event.inputs.run_bootstrap == 'true'
         run: |
-          # Use -c to specify the bootstrap config
-          databricks bundle deploy -c bootstrap.yml -t dev
-          databricks bundle --config-file bootstrap.yml run bootstrap_uc -t dev
+          # 1. Move the main app config out of the way
+          mv databricks.yml app_config_backup.yml
+          
+          # 2. Rename bootstrap config to be the "default"
+          mv bootstrap.yml databricks.yml
+          
+          # 3. Run deploy and execution (CLI now sees bootstrap logic as default)
+          databricks bundle deploy -t dev
+          databricks bundle run bootstrap_uc -t dev
+          
+          # 4. Swap them back so the next steps find the correct file
+          mv databricks.yml bootstrap.yml
+          mv app_config_backup.yml databricks.yml
       
       # --- VALIDATION ---
       - name: Validate Dev Target

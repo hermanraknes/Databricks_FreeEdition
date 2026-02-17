@@ -19,12 +19,20 @@ jobs:
       - name: Install Databricks CLI
         uses: databricks/setup-cli@main
 
-      # --- BOOTSTRAP ---
+      # --- BOOTSTRAP (Infrastructure) ---
       - name: Deploy and run bootstrap for PROD
         run: |
-          # Point to bootstrap.yml and use the prod target
-          databricks bundle deploy -c bootstrap.yml -t prod --auto-approve
-          databricks bundle --config-file bootstrap.yml run bootstrap_uc -t prod
+          # Swap to bootstrap config
+          mv databricks.yml app_config_backup.yml
+          mv bootstrap.yml databricks.yml
+          
+          # Run using the "default" file
+          databricks bundle deploy -t prod --auto-approve
+          databricks bundle run bootstrap_uc -t prod
+          
+          # Swap back to app config
+          mv databricks.yml bootstrap.yml
+          mv app_config_backup.yml databricks.yml
       
       # --- DEPLOY PROD ---
       - name: Validate prod target
