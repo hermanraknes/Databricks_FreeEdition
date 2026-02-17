@@ -20,15 +20,14 @@ jobs:
       - name: Install Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: Validate bootstrap target
-        run: databricks bundle validate -t bootstrap
-
-      - name: Deploy bootstrap target
-        run: databricks bundle deploy -t bootstrap
-
-      - name: Run bootstrap job (creates prod catalog/schema)
-        run: databricks bundle run bootstrap_uc -t bootstrap
-
+      # --- BOOTSTRAP ---
+      - name: Deploy and run bootstrap for PROD
+        run: |
+          # Overriding the catalog variable specifically for this run
+          databricks bundle deploy -t bootstrap --var="catalog=main_uc_prod"
+          databricks bundle run bootstrap_uc -t bootstrap --var="catalog=main_uc_prod"
+      
+      # --- DEPLOY PROD ---
       - name: Validate prod target
         run: databricks bundle validate -t prod
 
@@ -36,4 +35,6 @@ jobs:
         run: databricks bundle deploy -t prod
 
       - name: Run main prod job
-        run: databricks bundle run ingest_update_met -t prod
+        run: |
+          databricks bundle run get_met_stations -t prod
+          databricks bundle run ingest_update_met -t prod
