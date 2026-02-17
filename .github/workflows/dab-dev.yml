@@ -35,7 +35,7 @@ jobs:
         run: |
           # Use -c to specify the bootstrap config
           databricks bundle deploy -c bootstrap.yml -t dev
-          databricks bundle run bootstrap_uc -c bootstrap.yml -t dev
+          databricks bundle --config-file bootstrap.yml run bootstrap_uc -t dev
       
       # --- VALIDATION ---
       - name: Validate Dev Target

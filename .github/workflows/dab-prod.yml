@@ -24,7 +24,7 @@ jobs:
         run: |
           # Point to bootstrap.yml and use the prod target
           databricks bundle deploy -c bootstrap.yml -t prod --auto-approve
-          databricks bundle run bootstrap_uc -c bootstrap.yml -t prod
+          databricks bundle --config-file bootstrap.yml run bootstrap_uc -t prod
       
       # --- DEPLOY PROD ---
       - name: Validate prod target
