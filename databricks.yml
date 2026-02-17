@@ -1,36 +1,46 @@
 bundle:
   name: met_bundle
 
-include:
-  - resources/bootstrap/*.yml
-  - resources/jobs/*.yml
-  - resources/pipelines/*.yml
-
 variables:
   catalog:
     default: "main_uc_dev"
-    
   bootstrap_catalog:
     default: "main_uc_dev"
-
+  is_dev_mode:
+    default: true
   repo_root:
     default: "/Workspace/Databricks_FreeEdition"
 
-  is_dev_mode:
-    default: true
-
 targets:
+  # 1. BOOTSTRAP: Only sees the catalog creation job
+  bootstrap:
+    mode: development
+    resources:
+      jobs:
+        bootstrap_uc: ${file(resources/bootstrap/bootstrap_uc.yml).resources.jobs.bootstrap_uc}
+
+  # 2. DEV: Only sees the data jobs and pipelines
   dev:
     mode: development
     default: true
+    resources:
+      jobs:
+        get_met_stations: ${file(resources/jobs/get_met_stations.yml).resources.jobs.get_met_stations}
+        ingest_update_met: ${file(resources/jobs/ingest_update_met.yml).resources.jobs.ingest_update_met}
+      pipelines:
+        airquality_pipeline: ${file(resources/pipelines/pipeline_airquality.yml).resources.pipelines.airquality_pipeline}
     variables:
       is_dev_mode: true
 
+  # 3. PROD: Only sees the data jobs and pipelines (using prod vars)
   prod:
     mode: production
+    resources:
+      jobs:
+        get_met_stations: ${file(resources/jobs/get_met_stations.yml).resources.jobs.get_met_stations}
+        ingest_update_met: ${file(resources/jobs/ingest_update_met.yml).resources.jobs.ingest_update_met}
+      pipelines:
+        airquality_pipeline: ${file(resources/pipelines/pipeline_airquality.yml).resources.pipelines.airquality_pipeline}
     variables:
       catalog: main_uc_prod
       is_dev_mode: false
-
-  bootstrap:
-    mode: development
