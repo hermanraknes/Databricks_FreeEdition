@@ -13,7 +13,8 @@ resources:
       serverless: true
       catalog: ${var.catalog}
       target: "bronze"
+      root_path: "${var.repo_root}/MET/PIPELINE/Airquality Pipeline"
 
       libraries:
-        - notebook:
-            path: "${var.repo_root}/MET/PIPELINE/Airquality Pipeline"
+        - glob:
+            include:"${var.repo_root}/MET/PIPELINE/Airquality Pipeline/transformations/**"
