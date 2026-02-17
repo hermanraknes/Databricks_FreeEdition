@@ -18,7 +18,7 @@ targets:
           tasks:
             - task_key: create_cat
               notebook_task:
-                notebook_path: "${var.repo_root}/ADMIN/CreateCatalogs"
+                notebook_path: "${var.repo_root}/ADMIN/bootstrap_uc"
 
   # 2. DEV: Define MET jobs/pipelines here
   dev:
