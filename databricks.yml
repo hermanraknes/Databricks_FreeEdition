@@ -21,7 +21,8 @@ targets:
     default: true
   prod:
     mode: production
-    root_path: /Workspace/Shared/Production/MET_App
+    workspace:
+      root_path: /Workspace/Shared/Production/MET_App
     variables:
       catalog: main_uc_prod
       is_dev_mode: false
