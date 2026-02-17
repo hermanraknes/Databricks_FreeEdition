@@ -8,5 +8,3 @@ targets:
       jobs:
         bootstrap_uc:
           name: "Create Catalogs"
-        get_met_stations: !null
-        ingest_update_met: !null
