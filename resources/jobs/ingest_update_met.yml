@@ -8,7 +8,7 @@ resources:
       tasks:
         - task_key: ingest_update
           notebook_task:
-            notebook_path: "${var.repo_root}/MET/DATA INGEST/Ingest Met Data"
+            notebook_path: "${var.src_root}/MET/DATA INGEST/Ingest Met Data"
             base_parameters:
               catalog: ${var.catalog}
               user_email: "${workspace.current_user.userName}"

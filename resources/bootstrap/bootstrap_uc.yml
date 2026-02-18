@@ -8,7 +8,7 @@ resources:
       tasks:
         - task_key: create_uc
           notebook_task:
-            notebook_path: "${var.repo_root}/ADMIN/bootstrap_uc"
+            notebook_path: "${var.src_root}/ADMIN/bootstrap_uc"
             base_parameters:
               catalog_name: ${var.bootstrap_catalog}
       run_as:

@@ -17,13 +17,13 @@ resources:
       configuration:
         pipeline_catalog: "${var.catalog}"
       target: "bronze"
-      root_path: "${var.repo_root}/MET/PIPELINE/Airquality Pipeline"
+      root_path: "${var.src_root}/MET/PIPELINE/Airquality Pipeline"
 
       libraries:
       - {}
       - file:
-          path: ${var.repo_root}/MET/PIPELINE/Airquality Pipeline/transformations/bronze.py
+          path: ${var.src_root}/MET/PIPELINE/Airquality Pipeline/transformations/bronze.py
       - file:
-          path: ${var.repo_root}/MET/PIPELINE/Airquality Pipeline/transformations/gold.py
+          path: ${var.src_root}/MET/PIPELINE/Airquality Pipeline/transformations/gold.py
       - file:
-          path: ${var.repo_root}/MET/PIPELINE/Airquality Pipeline/transformations/silver.py
+          path: ${var.src_root}/MET/PIPELINE/Airquality Pipeline/transformations/silver.py

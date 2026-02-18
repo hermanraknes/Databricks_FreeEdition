@@ -15,6 +15,8 @@ variables:
     default: "/Workspace/Databricks_FreeEdition"
   env_tag:
     default: "development"
+  src_root:
+    defauly: "/Workspace/Databricks_FreeEdition/src"
 
 targets:
   dev:
